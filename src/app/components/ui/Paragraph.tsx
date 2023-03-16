@@ -1,5 +1,6 @@
 import { FC, forwardRef, HTMLAttributes } from 'react'
 import { cva, VariantProps } from 'class-variance-authority'
+import { cn } from '@/app/lib/utils'
 
 const paragraphVariants = cva(
   'max-v-prose text-slate-700 dark:text-slate-300 mb-2 text-center',
@@ -20,18 +21,20 @@ interface ParagraphProps
   extends HTMLAttributes<HTMLParagraphElement>,
     VariantProps<typeof paragraphVariants> {}
 
-// eslint-disable-next-line react/display-name
 const Paragraph = forwardRef<HTMLParagraphElement, ParagraphProps>(
-  ({ className, size, children, ...props }) => {
+  ({ className, size, children, ...props }, ref) => {
     return (
-      <p className={paragraphVariants()}>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptates
-        voluptatibus, quod, quas, voluptatum quia quia voluptate, doloribus
-        assumenda quibusdam quos doloremque. Quisquam, quibusdam. Quibusdam
-        voluptatum voluptates voluptas, quod quia voluptatibus.
+      <p
+        ref={ref}
+        {...props}
+        className={cn(paragraphVariants({ size, className }))}
+      >
+        {children}
       </p>
     )
   }
 )
+
+Paragraph.displayName = 'Paragraph'
 
 export default Paragraph
